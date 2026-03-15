@@ -41,7 +41,7 @@ class SuggestedForYouSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 230,
+          height: 250,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -89,33 +89,17 @@ class _SuggestedUserCardState extends State<_SuggestedUserCard> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Avatar
-                Container(
-                  width: 86,
-                  height: 86,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xFFFFD600),
-                        Color(0xFFFF7A00),
-                        Color(0xFFFF0069),
-                        Color(0xFFD300C5),
-                      ],
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.5),
-                    child: ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl: widget.user.avatarUrl,
-                        fit: BoxFit.cover,
-                        placeholder: (_, _) =>
-                            Container(color: const Color(0xFF262626)),
-                        errorWidget: (_, _, _) =>
-                            Container(color: const Color(0xFF262626)),
-                      ),
+                SizedBox(
+                  width: 124,
+                  height: 124,
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: widget.user.avatarUrl,
+                      fit: BoxFit.cover,
+                      placeholder: (_, _) =>
+                          Container(color: const Color(0xFF262626)),
+                      errorWidget: (_, _, _) =>
+                          Container(color: const Color(0xFF262626)),
                     ),
                   ),
                 ),
@@ -130,7 +114,6 @@ class _SuggestedUserCardState extends State<_SuggestedUserCard> {
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 4),
                 // Mutuals or Suggested
                 if (widget.user.mutuals > 0)
                   _MutualsRow(mutuals: widget.user.mutuals)
@@ -145,23 +128,22 @@ class _SuggestedUserCardState extends State<_SuggestedUserCard> {
                   ),
                 const SizedBox(height: 12),
                 // Follow button
-                SizedBox(
+                Container(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0095F6),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'Follow',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
+                  decoration: BoxDecoration(
+                    color: Colors.indigoAccent,
+                    borderRadius: BorderRadius.circular(8.0)
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Text(
+                        'Follow',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          color: Colors.white
+                        ),
                       ),
                     ),
                   ),

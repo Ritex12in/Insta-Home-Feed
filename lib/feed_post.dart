@@ -4,6 +4,7 @@ import 'feed_models.dart';
 import 'post_header.dart';
 import 'post_actions_bar.dart';
 import 'interest_prompt.dart';
+import 'dart:math';
 
 class FeedPost extends StatefulWidget {
   final FeedPostModel post;
@@ -27,27 +28,23 @@ class _FeedPostState extends State<FeedPost> {
   @override
   Widget build(BuildContext context) {
     final post = widget.post;
+    final random = Random();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header
+        if(post.isAd)
         PostHeader(
           user: post.user,
           isAd: post.isAd,
           isSuggestedForYou: post.isSuggestedForYou,
           showFollow: post.isSuggestedForYou,
+          hasStory: random.nextBool(),
         ),
 
         // Image(s)
         if (post.imageUrls.isNotEmpty) _buildImageSection(post),
-
-        // Interest prompt (shown between image and actions)
-        if (post.showInterestPrompt)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            child: InterestPrompt(),
-          ),
 
         // Actions + caption
         PostActionsBar(
@@ -63,12 +60,14 @@ class _FeedPostState extends State<FeedPost> {
           isAd: post.isAd,
         ),
 
-        // Ad: large signup button with right arrow
-        if (post.isAd)
-          _AdSignupRow(),
+        // Interest prompt (shown between image and actions)
+        if (post.showInterestPrompt)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            child: InterestPrompt(),
+          ),
 
-        // Divider
-        Divider(color: const Color(0xFF262626), thickness: 0.5),
+        SizedBox(height: 4.0),
       ],
     );
   }
@@ -88,9 +87,9 @@ class _FeedPostState extends State<FeedPost> {
                   imageUrl: post.imageUrls[index],
                   fit: BoxFit.cover,
                   width: double.infinity,
-                  placeholder: (_, __) =>
+                  placeholder: (_, _) =>
                       Container(color: const Color(0xFF262626)),
-                  errorWidget: (_, __, ___) =>
+                  errorWidget: (_, _, _) =>
                       Container(color: const Color(0xFF262626)),
                 );
               },
@@ -101,10 +100,9 @@ class _FeedPostState extends State<FeedPost> {
             top: 12,
             right: 12,
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -125,11 +123,14 @@ class _FeedPostState extends State<FeedPost> {
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.volume_off,
-                  color: Colors.white, size: 18),
+              child: const Icon(
+                Icons.volume_off,
+                color: Colors.white,
+                size: 18,
+              ),
             ),
           ),
           // Dot indicators (bottom center)
@@ -150,7 +151,7 @@ class _FeedPostState extends State<FeedPost> {
                     shape: BoxShape.circle,
                     color: i == _currentCarouselIndex
                         ? const Color(0xFF0095F6)
-                        : Colors.white.withOpacity(0.5),
+                        : Colors.white.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -163,18 +164,21 @@ class _FeedPostState extends State<FeedPost> {
     // Single image
     return Stack(
       children: [
-        CachedNetworkImage(
-          imageUrl: post.imageUrls.first,
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: MediaQuery.of(context).size.width,
-          placeholder: (_, __) => Container(
+        AspectRatio(
+          aspectRatio: 9.0 / 16,
+          child: CachedNetworkImage(
+            imageUrl: post.imageUrls.first,
+            fit: BoxFit.cover,
+            width: double.infinity,
             height: MediaQuery.of(context).size.width,
-            color: const Color(0xFF262626),
-          ),
-          errorWidget: (_, __, ___) => Container(
-            height: MediaQuery.of(context).size.width,
-            color: const Color(0xFF262626),
+            placeholder: (_, _) => Container(
+              height: MediaQuery.of(context).size.width,
+              color: const Color(0xFF262626),
+            ),
+            errorWidget: (_, _, _) => Container(
+              height: MediaQuery.of(context).size.width,
+              color: const Color(0xFF262626),
+            ),
           ),
         ),
         // Mute icon for video posts (shown on some)
@@ -186,12 +190,27 @@ class _FeedPostState extends State<FeedPost> {
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.volume_off,
-                  color: Colors.white, size: 18),
+              child: const Icon(
+                Icons.volume_off,
+                color: Colors.white,
+                size: 18,
+              ),
             ),
+          ),
+
+        if (post.isAd)
+          Positioned(bottom: 0, left: 0, right: 0, child: _AdSignupRow()),
+
+        if(!post.isAd)
+          PostHeader(
+            user: post.user,
+            isAd: post.isAd,
+            isSuggestedForYou: post.isSuggestedForYou,
+            showFollow: post.isSuggestedForYou,
+            hasStory: false,
           ),
       ],
     );
@@ -202,13 +221,7 @@ class _AdSignupRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 4),
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: Color(0xFF262626), width: 0.5),
-          bottom: BorderSide(color: Color(0xFF262626), width: 0.5),
-        ),
-      ),
+      decoration: const BoxDecoration(color: Colors.green),
       child: ListTile(
         dense: true,
         title: const Text(

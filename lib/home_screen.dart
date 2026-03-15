@@ -26,10 +26,7 @@ class HomeScreen extends StatelessWidget {
             return Column(
               children: [
                 StoriesBar(stories: mockStories),
-                Divider(
-                    color: const Color(0xFF262626),
-                    thickness: 0.5,
-                    height: 0),
+                SizedBox(height: 4.0,)
               ],
             );
           }

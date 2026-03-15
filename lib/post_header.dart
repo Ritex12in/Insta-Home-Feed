@@ -9,13 +9,17 @@ class PostHeader extends StatelessWidget {
   final bool isAd;
   final bool isSuggestedForYou;
   final bool showFollow;
+  final bool hasStory;
+  final bool isReel;
 
   const PostHeader({
     super.key,
     required this.user,
     this.isAd = false,
+    this.isReel = true,
     this.isSuggestedForYou = false,
     this.showFollow = false,
+    this.hasStory = false
   });
 
   @override
@@ -80,7 +84,8 @@ class PostHeader extends StatelessWidget {
               onPressed: () {},
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.white,
-                side: const BorderSide(color: Color(0xFF363636), width: 1),
+                backgroundColor: isReel?Colors.transparent : Colors.white.withValues(alpha: 0.15),
+                side: BorderSide(color: isReel? Colors.white : Color(0xFF363636), width: 1),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 minimumSize: Size.zero,
@@ -113,7 +118,8 @@ class PostHeader extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    return Container(
+    if(hasStory) {
+      return Container(
       width: 34,
       height: 34,
       decoration: const BoxDecoration(
@@ -135,12 +141,27 @@ class PostHeader extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: user.avatarUrl,
             fit: BoxFit.cover,
-            placeholder: (_, __) => Container(color: const Color(0xFF262626)),
-            errorWidget: (_, __, ___) =>
+            placeholder: (_, _) => Container(color: const Color(0xFF262626)),
+            errorWidget: (_, _, _) =>
                 Container(color: const Color(0xFF262626)),
           ),
         ),
       ),
     );
+    }else{
+      return SizedBox(
+        height: 34,
+        width: 34,
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: user.avatarUrl,
+            fit: BoxFit.cover,
+            placeholder: (_, _) => Container(color: const Color(0xFF262626)),
+            errorWidget: (_, _, _) =>
+                Container(color: const Color(0xFF262626)),
+          ),
+        ),
+      );
+    }
   }
 }

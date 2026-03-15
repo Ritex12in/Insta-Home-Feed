@@ -14,56 +14,61 @@ class _InterestPromptState extends State<InterestPrompt> {
   Widget build(BuildContext context) {
     if (_dismissed) return const SizedBox.shrink();
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1A1A1A),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Column(
+      children: [
+        _TriangleWidget(),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            color: const Color(0xFF363636),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Expanded(
-                child: Text(
-                  'Are you interested in this post?',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Are you interested in this post?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () => setState(() => _dismissed = true),
+                    child: const Icon(Icons.close, color: Colors.white, size: 18),
+                  ),
+                ],
               ),
-              GestureDetector(
-                onTap: () => setState(() => _dismissed = true),
-                child: const Icon(Icons.close, color: Colors.white, size: 18),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _PromptButton(
+                      label: 'Not interested',
+                      icon: Icons.close,
+                      onTap: () => setState(() => _dismissed = true),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _PromptButton(
+                      label: 'Interested',
+                      icon: Icons.check,
+                      onTap: () => setState(() => _dismissed = true),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _PromptButton(
-                  label: 'Not interested',
-                  icon: Icons.close,
-                  onTap: () => setState(() => _dismissed = true),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _PromptButton(
-                  label: 'Interested',
-                  icon: Icons.check,
-                  onTap: () => setState(() => _dismissed = true),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -86,7 +91,7 @@ class _PromptButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: const Color(0xFF363636),
+          color: const Color(0xFF1A1A1A),
           borderRadius: BorderRadius.circular(24),
         ),
         child: Row(
@@ -105,6 +110,38 @@ class _PromptButton extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _TrianglePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFF363636)
+      ..style = PaintingStyle.fill;
+
+    final path = Path();
+    path.moveTo(size.width / 2, 0); // top
+    path.lineTo(0, size.height); // bottom left
+    path.lineTo(size.width, size.height); // bottom right
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _TriangleWidget extends StatelessWidget {
+  const _TriangleWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: const Size(20, 10),
+      painter: _TrianglePainter(),
     );
   }
 }

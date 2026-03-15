@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class InstagramBottomNav extends StatefulWidget {
   const InstagramBottomNav({super.key});
@@ -8,70 +9,33 @@ class InstagramBottomNav extends StatefulWidget {
 }
 
 class _InstagramBottomNavState extends State<InstagramBottomNav> {
-  int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 52 + MediaQuery.of(context).padding.bottom,
       decoration: const BoxDecoration(
         color: Colors.black,
-        border: Border(
-          top: BorderSide(color: Color(0xFF262626), width: 0.5),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFF262626), width: 0.5)),
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _NavItem(
-              icon: Icons.home,
-              isSelected: _selectedIndex == 0,
-              onTap: () => setState(() => _selectedIndex = 0),
-            ),
-            _NavItem(
-              icon: Icons.play_circle_outline,
-              isSelected: _selectedIndex == 1,
-              onTap: () => setState(() => _selectedIndex = 1),
-            ),
-            _NavItem(
-              icon: Icons.send_outlined,
-              isSelected: _selectedIndex == 2,
-              onTap: () => setState(() => _selectedIndex = 2),
-            ),
-            _NavItem(
-              icon: Icons.search,
-              isSelected: _selectedIndex == 3,
-              onTap: () => setState(() => _selectedIndex = 3),
-            ),
+            _NavItem(icon: 'assets/vectors/home.svg'),
+            _NavItem(icon: 'assets/vectors/play_alt.svg'),
+            _NavItem(icon: 'assets/vectors/share.svg'),
+            _NavItem(icon: 'assets/vectors/search.svg'),
             // Profile icon (custom avatar)
-            GestureDetector(
-              onTap: () => setState(() => _selectedIndex = 4),
-              child: Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: _selectedIndex == 4
-                        ? Colors.white
-                        : Colors.transparent,
-                    width: 2,
-                  ),
-                  color: const Color(0xFF262626),
-                ),
-                child: ClipOval(
-                  child: Image.network(
-                    'https://yavuzceliker.github.io/sample-images/image-1.jpg',
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => const Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
+            SizedBox(
+              width: 28,
+              height: 28,
+              child: ClipOval(
+                child: Image.network(
+                  'https://yavuzceliker.github.io/sample-images/image-1.jpg',
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) =>
+                      const Icon(Icons.person, color: Colors.white, size: 20),
                 ),
               ),
             ),
@@ -83,29 +47,17 @@ class _InstagramBottomNavState extends State<InstagramBottomNav> {
 }
 
 class _NavItem extends StatelessWidget {
-  final IconData icon;
-  final bool isSelected;
-  final VoidCallback onTap;
+  final String icon;
 
-  const _NavItem({
-    required this.icon,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const _NavItem({required this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 28,
-          // Filled style when selected
-        ),
-      ),
+    return SvgPicture.asset(
+      icon,
+      width: 22,
+      height: 22,
+      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
     );
   }
 }

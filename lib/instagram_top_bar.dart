@@ -20,26 +20,26 @@ class InstagramTopBar extends StatelessWidget implements PreferredSizeWidget {
 
             Icon(
               Icons.add,
-              size: 36.0,
+              size: 28.0,
               color: Colors.white,
             ),
 
             const Spacer(),
             SvgPicture.asset(
               'assets/vectors/insta_top_vector.svg',
-              height: 36,
+              height: 28,
               colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
             ),
 
             const SizedBox(width: 4.0,),
 
             const Icon(Icons.keyboard_arrow_down,
-                color: Colors.white, size: 26),
+                color: Colors.white, size: 22),
 
             const Spacer(),
 
             Icon(Icons.favorite_border,
-                color: Colors.white, size: 36)
+                color: Colors.white, size: 28)
           ],
         ),
       ),

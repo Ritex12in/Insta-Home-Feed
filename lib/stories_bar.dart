@@ -61,8 +61,8 @@ class _StoryItem extends StatelessWidget {
       return Stack(
         children: [
           Container(
-            width: 66,
-            height: 66,
+            width: 76,
+            height: 76,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: const Color(0xFF262626), width: 2),
@@ -80,14 +80,14 @@ class _StoryItem extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              width: 22,
-              height: 22,
+              width: 28,
+              height: 28,
               decoration: BoxDecoration(
-                color: const Color(0xFF0095F6),
+                color: Colors.white,
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.black, width: 2),
               ),
-              child: const Icon(Icons.add, color: Colors.white, size: 14),
+              child: const Icon(Icons.add, color: Colors.black, size: 14),
             ),
           ),
         ],
@@ -97,8 +97,8 @@ class _StoryItem extends StatelessWidget {
     // Gradient ring for unread stories
     if (!story.isSeen) {
       return Container(
-        width: 70,
-        height: 70,
+        width: 80,
+        height: 80,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(
@@ -135,8 +135,8 @@ class _StoryItem extends StatelessWidget {
 
     // Seen story - grey ring
     return Container(
-      width: 70,
-      height: 70,
+      width: 80,
+      height: 80,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(color: const Color(0xFF555555), width: 2),
