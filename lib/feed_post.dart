@@ -4,6 +4,7 @@ import 'feed_models.dart';
 import 'post_header.dart';
 import 'post_actions_bar.dart';
 import 'interest_prompt.dart';
+import 'pinch_zoom_overlay.dart';
 
 class FeedPost extends StatefulWidget {
   final FeedPostModel post;
@@ -32,16 +33,16 @@ class _FeedPostState extends State<FeedPost> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header
-        if(post.isAd || post.imageUrls.length>1)
-        PostHeader(
-          user: post.user,
-          isAd: post.isAd,
-          isSuggestedForYou: post.isSuggestedForYou,
-          showFollow: post.showFollow,
-          hasStory: post.hasStory,
-        ),
+        if (post.isAd || post.imageUrls.length > 1)
+          PostHeader(
+            user: post.user,
+            isAd: post.isAd,
+            isSuggestedForYou: post.isSuggestedForYou,
+            showFollow: post.showFollow,
+            hasStory: post.hasStory,
+          ),
 
-        // Image(s)
+        // Image(s) — wrapped with pinch-to-zoom
         if (post.imageUrls.isNotEmpty) _buildImageSection(post),
 
         // Actions + caption
@@ -58,14 +59,14 @@ class _FeedPostState extends State<FeedPost> {
           isAd: post.isAd,
         ),
 
-        // Interest prompt (shown between image and actions)
+        // Interest prompt
         if (post.showInterestPrompt)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             child: InterestPrompt(),
           ),
 
-        SizedBox(height: 4.0),
+        const SizedBox(height: 4.0),
       ],
     );
   }
@@ -80,15 +81,21 @@ class _FeedPostState extends State<FeedPost> {
               controller: _pageController,
               itemCount: post.imageUrls.length,
               onPageChanged: (i) => setState(() => _currentCarouselIndex = i),
+              // Disable page swiping while zooming is active by using a custom
+              // scroll physics — PageView and PinchZoom coexist naturally since
+              // pinch uses 2 pointers and swipe uses 1.
               itemBuilder: (context, index) {
-                return CachedNetworkImage(
+                return PinchZoomOverlay(
                   imageUrl: post.imageUrls[index],
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  placeholder: (_, _) =>
-                      Container(color: const Color(0xFF262626)),
-                  errorWidget: (_, _, _) =>
-                      Container(color: const Color(0xFF262626)),
+                  child: CachedNetworkImage(
+                    imageUrl: post.imageUrls[index],
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    placeholder: (_, _) =>
+                        Container(color: const Color(0xFF262626)),
+                    errorWidget: (_, _, _) =>
+                        Container(color: const Color(0xFF262626)),
+                  ),
                 );
               },
             ),
@@ -98,7 +105,8 @@ class _FeedPostState extends State<FeedPost> {
             top: 12,
             right: 12,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(12),
@@ -140,7 +148,7 @@ class _FeedPostState extends State<FeedPost> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 post.imageUrls.length,
-                (i) => AnimatedContainer(
+                    (i) => AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   width: i == _currentCarouselIndex ? 6 : 5,
@@ -159,27 +167,30 @@ class _FeedPostState extends State<FeedPost> {
       );
     }
 
-    // Single image
+    // Single image — wrapped with PinchZoomOverlay
     return Stack(
       children: [
-        AspectRatio(
-          aspectRatio: post.isAd?3/4:9/16,
-          child: CachedNetworkImage(
-            imageUrl: post.imageUrls.first,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: MediaQuery.of(context).size.width,
-            placeholder: (_, _) => Container(
+        PinchZoomOverlay(
+          imageUrl: post.imageUrls.first,
+          child: AspectRatio(
+            aspectRatio: post.isAd ? 3 / 4 : 9 / 16,
+            child: CachedNetworkImage(
+              imageUrl: post.imageUrls.first,
+              fit: BoxFit.cover,
+              width: double.infinity,
               height: MediaQuery.of(context).size.width,
-              color: const Color(0xFF262626),
-            ),
-            errorWidget: (_, _, _) => Container(
-              height: MediaQuery.of(context).size.width,
-              color: const Color(0xFF262626),
+              placeholder: (_, _) => Container(
+                height: MediaQuery.of(context).size.width,
+                color: const Color(0xFF262626),
+              ),
+              errorWidget: (_, _, _) => Container(
+                height: MediaQuery.of(context).size.width,
+                color: const Color(0xFF262626),
+              ),
             ),
           ),
         ),
-        // Mute icon for video posts (shown on some)
+        // Mute icon for suggested posts
         if (post.isSuggestedForYou)
           Positioned(
             bottom: 12,
@@ -202,7 +213,7 @@ class _FeedPostState extends State<FeedPost> {
         if (post.isAd)
           Positioned(bottom: 0, left: 0, right: 0, child: _AdSignupRow()),
 
-        if(!post.isAd)
+        if (!post.isAd)
           PostHeader(
             user: post.user,
             isAd: post.isAd,

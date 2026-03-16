@@ -4,7 +4,7 @@ import 'package:insta_home/data/datasource/insta_datasource.dart';
 import '../../data/domain/repository/home_repository_impl.dart';
 import '../../domain/model/home_page_state.dart';
 import '../../domain/repository/home_repository.dart';
-import '../../presentation/pages/home/home_notifier.dart';
+import '../../presentation/pages/home/viewmodel/home_notifier.dart';
 
 final instaDataSourceProvider = Provider<InstaDatasource>((ref){
   return InstaDatasource();

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_home/domain/model/home_page_state.dart';
 
-import '../../../core/providers/app_providers.dart';
+import '../../../../core/providers/app_providers.dart';
 
 class HomeNotifier extends AsyncNotifier<HomePageState> {
   static const int _limit = 10;
@@ -11,7 +11,7 @@ class HomeNotifier extends AsyncNotifier<HomePageState> {
   @override
   Future<HomePageState> build() async {
     final homeRepository = ref.watch(homeRepositoryProvider);
-
+    await Future.delayed(Duration(milliseconds: 1500));
     final posts = await homeRepository.getPosts(_limit);
     final stories = await homeRepository.getStories(10);
     final suggestedUsers = await homeRepository.getSuggested(10);

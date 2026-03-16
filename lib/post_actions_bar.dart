@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -36,6 +35,19 @@ class _PostActionsBarState extends State<PostActionsBar> {
   bool _isLiked = false;
   bool _isBookmarked = false;
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: TextStyle(color: Colors.white),),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: const Color(0xFF262626),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   String _formatCount(int count) {
     if (count >= 1000000) {
       return '${(count / 1000000).toStringAsFixed(1)}M';
@@ -71,21 +83,21 @@ class _PostActionsBarState extends State<PostActionsBar> {
               _ActionIcon(
                 icon: 'assets/vectors/beacon.svg',
                 count: _formatCount(widget.comments),
-                onTap: () {},
+                onTap: () => _showSnackBar('Comments coming soon'),
               ),
               const SizedBox(width: 4),
               // Repost
               _ActionIcon(
                 icon: 'assets/vectors/repeat.svg',
                 count: _formatCount(widget.reposts),
-                onTap: () {},
+                onTap: () => _showSnackBar('Repost coming soon'),
               ),
               const SizedBox(width: 4),
               // Send (paper plane)
               _ActionIcon(
                 icon: 'assets/vectors/share.svg',
                 count: _formatCount(widget.reposts),
-                onTap: () {},
+                onTap: () => _showSnackBar('Share coming soon'),
               ),
               const Spacer(),
               // Bookmark
@@ -166,16 +178,12 @@ class _PostActionsBarState extends State<PostActionsBar> {
 class _ActionIcon extends StatelessWidget {
   final String icon;
   final Color color;
-  final double height;
-  final double width;
   final String count;
   final VoidCallback onTap;
 
   const _ActionIcon({
     required this.icon,
     this.color = Colors.white,
-    this.height = 24.0,
-    this.width = 24.0,
     required this.count,
     required this.onTap,
   });
@@ -190,8 +198,8 @@ class _ActionIcon extends StatelessWidget {
           children: [
             SvgPicture.asset(
               icon,
-              height: height,
-              width: width,
+              height: 24.0,
+              width: 24.0,
               colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
             ),
             if (count.isNotEmpty) ...[

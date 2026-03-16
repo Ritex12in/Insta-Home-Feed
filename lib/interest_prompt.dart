@@ -135,7 +135,7 @@ class _TrianglePainter extends CustomPainter {
 }
 
 class _TriangleWidget extends StatelessWidget {
-  const _TriangleWidget({super.key});
+  const _TriangleWidget();
 
   @override
   Widget build(BuildContext context) {

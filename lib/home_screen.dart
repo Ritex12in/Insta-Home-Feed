@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_home/core/providers/app_providers.dart';
+import 'package:insta_home/home_screen_shimmer.dart';
 import 'package:insta_home/stories_bar.dart';
 import 'package:insta_home/suggested_for_you_section.dart';
 import 'feed_post.dart';
@@ -99,7 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         );
       },
       error: (e, st) => Center(child: Text(e.toString())),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const HomeScreenShimmer(),
     );
   }
 }
