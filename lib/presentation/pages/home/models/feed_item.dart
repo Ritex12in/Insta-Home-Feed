@@ -1,0 +1,1 @@
+enum FeedItemType { post, carousel, ad, suggestedForYou }

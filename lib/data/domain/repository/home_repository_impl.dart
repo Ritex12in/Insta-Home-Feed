@@ -1,8 +1,10 @@
 import 'dart:math';
-
-import 'package:insta_home/feed_models.dart';
-
 import '../../../domain/repository/home_repository.dart';
+import '../../../presentation/pages/home/models/feed_item.dart';
+import '../../../presentation/pages/home/models/feed_post_model.dart';
+import '../../../presentation/pages/home/models/story_model.dart';
+import '../../../presentation/pages/home/models/suggested_user_model.dart';
+import '../../../presentation/pages/home/models/user_model.dart';
 import '../../datasource/insta_datasource.dart';
 
 class HomeRepositoryImpl implements HomeRepository {

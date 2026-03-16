@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:insta_home/core/providers/app_providers.dart';
-import 'package:insta_home/home_screen_shimmer.dart';
-import 'package:insta_home/stories_bar.dart';
-import 'package:insta_home/suggested_for_you_section.dart';
-import 'feed_post.dart';
-import 'instagram_bottom_nav.dart';
-import 'instagram_top_bar.dart';
+import 'package:insta_home/presentation/pages/home/widgets/home_screen_shimmer.dart';
+import 'package:insta_home/presentation/pages/home/widgets/stories_bar.dart';
+import 'package:insta_home/presentation/pages/home/widgets/suggested_for_you_section.dart';
+import '../widgets/feed_post.dart';
+import '../../../../core/widgets/instagram_bottom_nav.dart';
+import '../../../../core/widgets/instagram_top_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

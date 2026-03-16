@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'feed_models.dart';
+import '../models/feed_item.dart';
+import '../models/feed_post_model.dart';
 import 'post_header.dart';
 import 'post_actions_bar.dart';
 import 'interest_prompt.dart';
@@ -81,9 +82,6 @@ class _FeedPostState extends State<FeedPost> {
               controller: _pageController,
               itemCount: post.imageUrls.length,
               onPageChanged: (i) => setState(() => _currentCarouselIndex = i),
-              // Disable page swiping while zooming is active by using a custom
-              // scroll physics — PageView and PinchZoom coexist naturally since
-              // pinch uses 2 pointers and swipe uses 1.
               itemBuilder: (context, index) {
                 return PinchZoomOverlay(
                   imageUrl: post.imageUrls[index],

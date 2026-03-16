@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'feed_models.dart';
+import '../models/story_model.dart';
 
 class StoriesBar extends StatelessWidget {
   final List<StoryModel> stories;

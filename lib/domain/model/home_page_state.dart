@@ -1,4 +1,7 @@
-import 'package:insta_home/feed_models.dart';
+
+import '../../presentation/pages/home/models/feed_post_model.dart';
+import '../../presentation/pages/home/models/story_model.dart';
+import '../../presentation/pages/home/models/suggested_user_model.dart';
 
 class HomePageState {
   final List<FeedPostModel> posts;

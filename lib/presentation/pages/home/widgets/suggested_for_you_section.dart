@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import 'feed_models.dart';
+import '../models/suggested_user_model.dart';
 
 class SuggestedForYouSection extends StatelessWidget {
   final List<SuggestedUserModel> users;

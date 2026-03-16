@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import 'feed_models.dart';
+import '../models/user_model.dart';
 
 
 class PostHeader extends StatelessWidget {
