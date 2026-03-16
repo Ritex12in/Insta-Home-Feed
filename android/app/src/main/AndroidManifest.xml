@@ -4,7 +4,7 @@
 
 
     <application
-        android:label="insta_home"
+        android:label="InstaHome"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
