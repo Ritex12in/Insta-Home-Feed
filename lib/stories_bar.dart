@@ -87,7 +87,7 @@ class _StoryItem extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.black, width: 2),
               ),
-              child: const Icon(Icons.add, color: Colors.black, size: 14),
+              child: const Icon(Icons.add, color: Colors.black, size: 20),
             ),
           ),
         ],

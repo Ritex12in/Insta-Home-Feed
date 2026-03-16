@@ -4,7 +4,6 @@ import 'feed_models.dart';
 import 'post_header.dart';
 import 'post_actions_bar.dart';
 import 'interest_prompt.dart';
-import 'dart:math';
 
 class FeedPost extends StatefulWidget {
   final FeedPostModel post;
@@ -28,19 +27,18 @@ class _FeedPostState extends State<FeedPost> {
   @override
   Widget build(BuildContext context) {
     final post = widget.post;
-    final random = Random();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header
-        if(post.isAd)
+        if(post.isAd || post.imageUrls.length>1)
         PostHeader(
           user: post.user,
           isAd: post.isAd,
           isSuggestedForYou: post.isSuggestedForYou,
-          showFollow: post.isSuggestedForYou,
-          hasStory: random.nextBool(),
+          showFollow: post.showFollow,
+          hasStory: post.hasStory,
         ),
 
         // Image(s)
@@ -165,7 +163,7 @@ class _FeedPostState extends State<FeedPost> {
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 9.0 / 16,
+          aspectRatio: post.isAd?3/4:9/16,
           child: CachedNetworkImage(
             imageUrl: post.imageUrls.first,
             fit: BoxFit.cover,
@@ -209,8 +207,8 @@ class _FeedPostState extends State<FeedPost> {
             user: post.user,
             isAd: post.isAd,
             isSuggestedForYou: post.isSuggestedForYou,
-            showFollow: post.isSuggestedForYou,
-            hasStory: false,
+            showFollow: post.showFollow,
+            hasStory: post.hasStory,
           ),
       ],
     );

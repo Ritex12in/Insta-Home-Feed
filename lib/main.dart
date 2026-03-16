@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'home_screen.dart';
 
@@ -11,7 +12,7 @@ void main() {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(const InstagramApp());
+  runApp(const ProviderScope(child:  InstagramApp()));
 }
 
 class InstagramApp extends StatelessWidget {

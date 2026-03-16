@@ -66,7 +66,7 @@ class PostHeader extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   )
-                else if (isSuggestedForYou)
+                else
                   const Text(
                     'Suggested for you',
                     style: TextStyle(
@@ -79,7 +79,7 @@ class PostHeader extends StatelessWidget {
             ),
           ),
           // Follow button (for suggested/ad)
-          if (showFollow || isSuggestedForYou) ...[
+          if (showFollow) ...[
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(

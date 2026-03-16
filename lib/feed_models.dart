@@ -43,6 +43,8 @@ class FeedPostModel {
   final bool showInterestPrompt;
   final bool isLikedBy;
   final String? likedByUsername;
+  final bool hasStory;
+  final bool showFollow;
 
   const FeedPostModel({
     required this.type,
@@ -59,6 +61,8 @@ class FeedPostModel {
     this.showInterestPrompt = false,
     this.isLikedBy = false,
     this.likedByUsername,
+    required this.hasStory,
+    required this.showFollow,
   });
 }
 

@@ -31,7 +31,7 @@ class SuggestedForYouSection extends StatelessWidget {
                 child: const Text(
                   'See all',
                   style: TextStyle(
-                    color: Color(0xFF0095F6),
+                    color: Colors.indigoAccent,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
@@ -67,12 +67,9 @@ class _SuggestedUserCard extends StatefulWidget {
 }
 
 class _SuggestedUserCardState extends State<_SuggestedUserCard> {
-  bool _dismissed = false;
 
   @override
   Widget build(BuildContext context) {
-    if (_dismissed) return const SizedBox.shrink();
-
     return Container(
       width: 166,
       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -155,10 +152,7 @@ class _SuggestedUserCardState extends State<_SuggestedUserCard> {
           Positioned(
             top: 8,
             right: 8,
-            child: GestureDetector(
-              onTap: () => setState(() => _dismissed = true),
-              child: const Icon(Icons.close, color: Colors.white, size: 18),
-            ),
+            child: Icon(Icons.close, color: Colors.white, size: 18),
           ),
         ],
       ),
